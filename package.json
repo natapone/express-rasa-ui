@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/natapone/express-rasa-ui/issues"
   },
-  "homepage": "https://github.com/natapone/express-rasa-ui#readme"
+  "homepage": "https://github.com/natapone/express-rasa-ui#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
