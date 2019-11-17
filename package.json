@@ -1,0 +1,19 @@
+{
+  "name": "express-rasa-ui",
+  "version": "1.0.0",
+  "description": "Simple front to test Rasa bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natapone/express-rasa-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natapone/express-rasa-ui/issues"
+  },
+  "homepage": "https://github.com/natapone/express-rasa-ui#readme"
+}
