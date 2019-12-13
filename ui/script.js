@@ -90,13 +90,22 @@ $(document).ready(function () {
 				"message": text
 			}),
 			success: function (data, textStatus, xhr) {
-				console.log(data);
+				// console.log(data);
+				// console.log(Object.keys(data).length);
 
 				if (Object.keys(data).length !== 0) {
-					for (i = 0; i < Object.keys(data[0]).length; i++) {
-						if (Object.keys(data[0])[i] == "buttons") { //check if buttons(suggestions) are present.
-							addSuggestion(data[0]["buttons"])
-						}
+					// Loop each return
+					for (i = 0; i < Object.keys(data).length; i++) {
+						var data_detail = data[i];
+
+						// Loop each attribute
+						Object.keys(data_detail).forEach(function(key) {
+							var value = data_detail[key];
+							if (key == "buttons" && value) {
+								// console.log("---- " + key +": "+ value);
+								addSuggestion(value)
+							}
+						})
 
 					}
 				}
