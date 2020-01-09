@@ -78,7 +78,6 @@ $(document).ready(function () {
   //------------------------------------------- Call the RASA API--------------------------------------
   function send(text) {
 
-
     $.ajax({
       url: 'http://localhost:5002/webhooks/rest/webhook', //  RASA API
       type: 'POST',
@@ -90,8 +89,8 @@ $(document).ready(function () {
         "message": text
       }),
       success: function (data, textStatus, xhr) {
-        // console.log(data);
-        // console.log(Object.keys(data).length);
+        console.log(data);
+
 
         if (Object.keys(data).length !== 0) {
           // Loop each return
@@ -189,11 +188,12 @@ $(document).ready(function () {
   function addSuggestion(textToAdd) {
     setTimeout(function () {
       var suggestions = textToAdd;
+      console.log("+++addSuggestion+++");
       var suggLength = textToAdd.length;
       $('<p class="suggestion"></p>').appendTo('#result_div');
       // Loop through suggestions
       for (i = 0; i < suggLength; i++) {
-        $('<span class="sugg-options">' + suggestions[i].title + '</span>').appendTo('.suggestion');
+        $('<span class="sugg-options" intent="' + suggestions[i].payload + '" >' + suggestions[i].title + '</span>').appendTo('.suggestion');
       }
       scrollToBottomOfResults();
     }, 1000);
@@ -203,8 +203,11 @@ $(document).ready(function () {
   // on click of suggestions get value and send to API.AI
   $(document).on("click", ".suggestion span", function () {
     var text = this.innerText;
+    var intent = this.attributes["intent"].value;
+    console.log("--On Click--");
+    console.log(intent)
     setUserResponse(text);
-    send(text);
+    send(intent);
     $('.suggestion').remove();
   });
   // Suggestions end -----------------------------------------------------------------------------------------
