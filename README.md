@@ -6,6 +6,10 @@ $ cd ~/project/express-rasa-ui
 $ node app.js
 $ node app.js --inspect
 
+Prod$ PORT=80 node app.js
+
+
+
 http://localhost:3000/ui/
 
 # Ref
