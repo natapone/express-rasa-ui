@@ -147,6 +147,7 @@ $(document).ready(function () {
         }
         BotResponse = msg;
         $(BotResponse).appendTo('#result_div');
+        document.getElementById('chat-input').focus();
       }
       scrollToBottomOfResults();
       hideSpinner();
