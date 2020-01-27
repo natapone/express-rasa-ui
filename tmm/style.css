@@ -1,0 +1,27 @@
+kmbot .kmbot_chat_button {
+  z-index: 10000;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+}
+
+kmbot .kmbot_chat_item_container {display:inherit}
+
+kmbot .button-wrapper{
+  position:relative;
+  display:inline-block;
+}
+
+kmbot .telenor-button {
+  position:relative;
+  font-size:12px;
+  line-height:1.2;
+  width:200px;
+  height:133px;
+  text-align:center;
+  margin-right:20px;
+  margin-bottom:-10px;
+  background:transparent url(image/live-chat-icon.png) no-repeat center;
+  background-size:220px;
+  cursor:pointer;
+}

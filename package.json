@@ -18,6 +18,7 @@
   "homepage": "https://github.com/natapone/express-rasa-ui#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "serve-favicon": "^2.5.0"
   }
 }
