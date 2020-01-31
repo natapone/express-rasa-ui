@@ -79,7 +79,8 @@ $(document).ready(function () {
   function send(text) {
 
     $.ajax({
-      url: 'http://206.189.37.110:5002/webhooks/rest/webhook', //  RASA API
+      // url: 'http://206.189.37.110:5002/webhooks/rest/webhook', //  RASA API
+      url: 'http://localhost:5002/webhooks/rest/webhook', //  RASA API
       type: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -139,7 +140,7 @@ $(document).ready(function () {
         var msg = "";
         for (var i = 0; i < val.length; i++) {
           if (val[i]["image"]) { //check if there are any images
-            msg += '<p class="botResult"><img  width="200" height="124" src="' + val[i].image + '/"></p><div class="clearfix"></div>';
+            msg += '<p class="botResult"><img  width="100%" src="' + val[i].image + '"></p><div class="clearfix"></div>';
           } else {
             msg += '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
           }
