@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   // --- Toggle chatbot ---
 
   // -- Open bot from icon
@@ -30,5 +29,57 @@ $(document).ready(function () {
 
 
   });
+
+  // --- Input Text ---
+
+  $('#kmbot_chat_control_send').click(function (e) {
+    console.log("Text send!");
+    var text = $("#kmbot_chat_textarea").val();
+    if (text == "" || $.trim(text) == '') {
+      e.preventDefault();
+      return false;
+    } else {
+      $("#kmbot_chat_textarea").blur();
+      setUserResponse(text);
+      // send(text);
+      e.preventDefault();
+      return false;
+    }
+
+  });
+
+  //--- Set user response in kmbot_chat_timeline ---
+  function setUserResponse(val) {
+    console.log("Input=" + val);
+
+    var UserResponse =
+    `<div class="kmbot-chat-message kmbot-chat-message-self">
+      <div class="kmbot-chat-message-body" dir="ltr">${val}</div>
+    </div>`;
+
+    $(UserResponse).appendTo('#kmbot_chat_conversation');
+
+    // var UserResponse = '<p class="userEnteredText">' + val + '</p><div class="clearfix"></div>';
+    // $(UserResponse).appendTo('#result_div');
+    $("#kmbot_chat_textarea").val('');
+    scrollToBottomOfResults();
+    // showSpinner();
+    $('.suggestion').remove();
+  }
+
+  //---------------------------------- Scroll to the bottom of the results div -------------------------------
+  function scrollToBottomOfResults() {
+    var terminalResultsDiv = document.getElementById('kmbot_chat_conversation');
+    terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;
+  }
+
+  //---------------------------------------- Spinner ---------------------------------------------------
+  // function showSpinner() {
+  //   $('.spinner').show();
+  // }
+  //
+  // function hideSpinner() {
+  //   $('.spinner').hide();
+  // }
 
 });
