@@ -41,7 +41,7 @@ $(document).ready(function () {
     } else {
       $("#kmbot_chat_textarea").blur();
       setUserResponse(text);
-      // send(text);
+      send(text);
       e.preventDefault();
       return false;
     }
@@ -59,23 +59,76 @@ $(document).ready(function () {
 
     $(UserResponse).appendTo('#kmbot_chat_conversation');
     $("#kmbot_chat_textarea").val('');
+
+    prepBotResponse();
     scrollToBottomOfResults();
 
-    // ---------
-    var Spinner = '<div class="spinner">' +
-    '<div class="bounce1"></div>' +
-    '<div class="bounce2"></div>' +
-    '<div class="bounce3"></div>' +
-    '</div>';
-    $(Spinner).appendTo('#kmbot_chat_conversation');
-    showSpinner();
 
-    // -------
 
-    $('.suggestion').remove();
+    // $('.suggestion').remove();
   }
 
-  //---------------------------------- Scroll to the bottom of the results div -------------------------------
+  //------------------------------------------- Call the RASA API--------------------------------------
+  function send(text) {
+    console.log("Call Rasa=" + text);
+
+    $.ajax({
+      url: 'http://localhost:5002/webhooks/rest/webhook', //  RASA API // 206.189.37.110
+      type: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        "sender": "user",
+        "message": text
+      }),
+      success: function (data, textStatus, xhr) {
+        console.log(data);
+
+
+
+
+
+
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        console.log('Error in Operation');
+        setBotResponse('error');
+      }
+
+
+    });
+  }
+
+  //------------------------------------ Set bot response in kmbot_chat_timeline -------------------------------------
+  function prepBotResponse(val) {
+
+    var BotResponse =
+    `<div class="kmbot-chat-message kmbot-chat-automatic-message kmbot-chat-message-someone-else"
+      id="kmbot_chat_timeline_item_${Date.now()}">
+      <div class="kmbot-chat-message-identity-avatar">
+        <img src="./image/Telenor_Logo.png" alt="avatar">
+      </div>
+    <div class="kmbot-chat-message-body kmbot-chat-spinner" dir="ltr"">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+    </div>`;
+    
+    $(BotResponse).appendTo('#kmbot_chat_conversation');
+    showSpinner();
+    scrollToBottomOfResults();
+
+  }
+
+  function setBotResponse(val) {
+    console.log("----error!!!----");
+  };
+
+  //---------------------------------- Scroll to the bottom of kmbot_chat_timeline -------------------------------
   function scrollToBottomOfResults() {
     var terminalResultsDiv = document.getElementById('kmbot_chat_conversation');
     terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;

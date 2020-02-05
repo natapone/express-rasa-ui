@@ -42,34 +42,15 @@ kmbot .kmbot-chat-input-zone {
 
 /* Spinner start */
 kmbot .spinner {
-  background:#01345b;
   width: 70px;
   text-align: center;
-  display: none;
-  border-radius: 4px;
   position: relative;
-  top: -7px;
-  left: 19px;
-  padding: 7px 10px;
-  border-top-left-radius: 0;
-}
-
-kmbot .spinner:before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: 0px solid rgba(0, 0, 0, 0);
-  border-bottom: 15px solid rgba(0, 0, 0, 0);
-  border-right: 15px solid #01345b;
-  left: -15px;
-  margin-top: -7px;
 }
 
 kmbot .spinner > div {
   width: 10px;
   height: 10px;
-  background-color: #fff;
+  background-color: #00b0ea;
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
