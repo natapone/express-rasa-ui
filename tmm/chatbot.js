@@ -58,12 +58,20 @@ $(document).ready(function () {
     </div>`;
 
     $(UserResponse).appendTo('#kmbot_chat_conversation');
-
-    // var UserResponse = '<p class="userEnteredText">' + val + '</p><div class="clearfix"></div>';
-    // $(UserResponse).appendTo('#result_div');
     $("#kmbot_chat_textarea").val('');
     scrollToBottomOfResults();
-    // showSpinner();
+
+    // ---------
+    var Spinner = '<div class="spinner">' +
+    '<div class="bounce1"></div>' +
+    '<div class="bounce2"></div>' +
+    '<div class="bounce3"></div>' +
+    '</div>';
+    $(Spinner).appendTo('#kmbot_chat_conversation');
+    showSpinner();
+
+    // -------
+
     $('.suggestion').remove();
   }
 
@@ -74,12 +82,12 @@ $(document).ready(function () {
   }
 
   //---------------------------------------- Spinner ---------------------------------------------------
-  // function showSpinner() {
-  //   $('.spinner').show();
-  // }
-  //
-  // function hideSpinner() {
-  //   $('.spinner').hide();
-  // }
+  function showSpinner() {
+    $('.spinner').show();
+  }
+
+  function hideSpinner() {
+    $('.spinner').hide();
+  }
 
 });
