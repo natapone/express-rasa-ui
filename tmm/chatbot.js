@@ -97,23 +97,36 @@ $(document).ready(function () {
   //--- Set bot response in kmbot_chat_timeline ---
   function prepBotResponse(val) {
 
-    var BotResponse = getBotResponseTemplate();
+    var BotResponse = getBotSpinnerTemplate();
 
     $(BotResponse).appendTo('#kmbot_chat_conversation');
-    showSpinner();
-    scrollToBottomOfResults();
+    // scrollToBottomOfResults();
 
   }
 
-  function getBotResponseTemplate() {
+  function getBotResponseTemplate(message_body) {
+    var html =
+    `<div class="kmbot-chat-message kmbot-chat-automatic-message
+      kmbot-chat-message-someone-else"
+      id="kmbot_chat_timeline_item_${Date.now()}">
+      ${getAvatarTemplate('bot')}
+      <div class="kmbot-chat-message-body" dir="ltr"">
+        ${message_body}
+      </div>
+    </div>`;
+
+    return html;
+  }
+
+  function getBotSpinnerTemplate() {
     var html =
     `<div class="kmbot-chat-message kmbot-chat-automatic-message
       kmbot-chat-message-someone-else kmbot-chat-spinner"
       id="kmbot_chat_timeline_item_${Date.now()}">
       ${getAvatarTemplate('bot')}
-    <div class="kmbot-chat-message-body" dir="ltr"">
-      ${getSpinnerTemplate()}
-    </div>
+      <div class="kmbot-chat-message-body" dir="ltr"">
+        ${getSpinnerTemplate()}
+      </div>
     </div>`;
 
     return html;
@@ -148,32 +161,34 @@ $(document).ready(function () {
       if ($.trim(val) == '' || val == 'error') {
         console.log("----error!!!----");
         var err_msg = 'Sorry I wasn\'t able to understand your Query. Let\' try something else!';
-        var BotResponse =
-        `<div>${err_msg}</div>`;
+        var BotResponse = getBotResponseTemplate(err_msg);
 
         // Add error message to spinner div
-        $(BotResponse).appendTo('.kmbot-chat-spinner');
+        $(BotResponse).appendTo('#kmbot_chat_conversation');
       } else {
         // Format message from bot
         var msg = "";
         for (var i = 0; i < val.length; i++) {
           if (val[i]["image"]) { //check if there are any images
-            msg += '<p class="botResult"><img  width="100%" src="'
-                + val[i].image +
-                '"></p><div class="clearfix"></div>';
+            message_body = '<p class="botResult"><img  width="100%" src="'
+              + val[i].image +
+              '"></p><div class="clearfix"></div>';
+            msg += getBotResponseTemplate(message_body);
           } else {
-            msg += '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
+            message_body = '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
+            msg += getBotResponseTemplate(message_body);
           }
 
         }
-
-        BotResponse = msg;
+        // console.log(msg);
+        var BotResponse = msg;
         $(BotResponse).appendTo('#kmbot_chat_conversation');
 
       }
       // Remove spinner and whole div
-      $("div.kmbot-chat-spinner").remove()
-
+      removeSpinner();
+      scrollToBottomOfResults();
+      
     }, 500);
 
 
@@ -187,12 +202,8 @@ $(document).ready(function () {
   }
 
   //--- Spinner ---
-  function showSpinner() {
-    $('.spinner').show();
-  }
-
-  function hideSpinner() {
-    $('.spinner').hide();
+  function removeSpinner() {
+    $("div.kmbot-chat-spinner").remove();
   }
 
 });
