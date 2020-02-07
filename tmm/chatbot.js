@@ -97,25 +97,49 @@ $(document).ready(function () {
   //--- Set bot response in kmbot_chat_timeline ---
   function prepBotResponse(val) {
 
-    var BotResponse =
-    `<div class="kmbot-chat-message kmbot-chat-automatic-message kmbot-chat-message-someone-else"
-      id="kmbot_chat_timeline_item_${Date.now()}">
-      <div class="kmbot-chat-message-identity-avatar">
-        <img src="./image/Telenor_Logo.png" alt="avatar">
-      </div>
-    <div class="kmbot-chat-message-body kmbot-chat-spinner" dir="ltr"">
-      <div class="spinner">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-      </div>
-    </div>
-    </div>`;
+    var BotResponse = getBotResponseTemplate();
 
     $(BotResponse).appendTo('#kmbot_chat_conversation');
     showSpinner();
     scrollToBottomOfResults();
 
+  }
+
+  function getBotResponseTemplate() {
+    var html =
+    `<div class="kmbot-chat-message kmbot-chat-automatic-message
+      kmbot-chat-message-someone-else kmbot-chat-spinner"
+      id="kmbot_chat_timeline_item_${Date.now()}">
+      ${getAvatarTemplate('bot')}
+    <div class="kmbot-chat-message-body" dir="ltr"">
+      ${getSpinnerTemplate()}
+    </div>
+    </div>`;
+
+    return html;
+  }
+
+  function getSpinnerTemplate() {
+    var html =
+    `<div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>`;
+
+    return html;
+  }
+
+  function getAvatarTemplate(type) {
+    var html = '';
+    if (type == 'bot') {
+      html =
+      `<div class="kmbot-chat-message-identity-avatar">
+        <img src="./image/Telenor_Logo.png" alt="avatar">
+      </div>`;
+    }
+
+    return html;
   }
 
   function setBotResponse(val) {
@@ -147,9 +171,8 @@ $(document).ready(function () {
         $(BotResponse).appendTo('#kmbot_chat_conversation');
 
       }
-      // Remove spinner and class
-      $(".kmbot-chat-spinner div.spinner").remove()
-      document.querySelector(".kmbot-chat-spinner").classList.remove("kmbot-chat-spinner");
+      // Remove spinner and whole div
+      $("div.kmbot-chat-spinner").remove()
 
     }, 500);
 
