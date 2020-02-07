@@ -85,6 +85,24 @@ $(document).ready(function () {
       success: function (data, textStatus, xhr) {
         console.log(data);
 
+        // Format buttons
+        if (Object.keys(data).length !== 0) {
+          // Loop each return
+          for (i = 0; i < Object.keys(data).length; i++) {
+            var data_detail = data[i];
+
+            // Loop each attribute
+            Object.keys(data_detail).forEach(function(key) {
+              var value = data_detail[key];
+              if (key == "buttons" && value) {
+                // console.log("---- " + key +": "+ value);
+                addSuggestion(value)
+              }
+            })
+
+          }
+        }
+
         setBotResponse(data);
       },
       error: function (xhr, textStatus, errorThrown) {
@@ -180,7 +198,7 @@ $(document).ready(function () {
           }
 
         }
-        // console.log(msg);
+
         var BotResponse = msg;
         $(BotResponse).appendTo('#kmbot_chat_conversation');
 
@@ -188,7 +206,7 @@ $(document).ready(function () {
       // Remove spinner and whole div
       removeSpinner();
       scrollToBottomOfResults();
-      
+
     }, 500);
 
 
@@ -204,6 +222,21 @@ $(document).ready(function () {
   //--- Spinner ---
   function removeSpinner() {
     $("div.kmbot-chat-spinner").remove();
+  }
+
+  //--- Buttons(suggestions)---
+  function addSuggestion(textToAdd) {
+    setTimeout(function () {
+      var suggestions = textToAdd;
+      console.log("+++addSuggestion+++");
+      var suggLength = textToAdd.length;
+      $('<p class="suggestion"></p>').appendTo('#kmbot_chat_conversation');
+      // Loop through suggestions
+      for (i = 0; i < suggLength; i++) {
+        $('<span class="sugg-options" intent="' + suggestions[i].payload + '" >' + suggestions[i].title + '</span>').appendTo('.suggestion');
+      }
+      scrollToBottomOfResults();
+    }, 1000);
   }
 
 });
