@@ -68,7 +68,7 @@ $(document).ready(function () {
     // $('.suggestion').remove();
   }
 
-  //------------------------------------------- Call the RASA API--------------------------------------
+  //--- Call the RASA API---
   function send(text) {
     console.log("Call Rasa=" + text);
 
@@ -100,7 +100,7 @@ $(document).ready(function () {
     });
   }
 
-  //------------------------------------ Set bot response in kmbot_chat_timeline -------------------------------------
+  //--- Set bot response in kmbot_chat_timeline ---
   function prepBotResponse(val) {
 
     var BotResponse =
@@ -117,7 +117,7 @@ $(document).ready(function () {
       </div>
     </div>
     </div>`;
-    
+
     $(BotResponse).appendTo('#kmbot_chat_conversation');
     showSpinner();
     scrollToBottomOfResults();
@@ -125,16 +125,40 @@ $(document).ready(function () {
   }
 
   function setBotResponse(val) {
-    console.log("----error!!!----");
+
+
+    setTimeout(function () {
+      if ($.trim(val) == '' || val == 'error') {
+        console.log("----error!!!----");
+        var err_msg = 'Sorry I wasn\'t able to understand your Query. Let\' try something else!';
+        var BotResponse =
+        `<div>${err_msg}</div>`;
+
+        // Add error message to spinner div
+        $(BotResponse).appendTo('.kmbot-chat-spinner');
+
+      } else {
+
+      }
+      // Remove spinner and class
+      $(".kmbot-chat-spinner div.spinner").remove()
+      document.querySelector(".kmbot-chat-spinner").classList.remove("kmbot-chat-spinner");
+
+
+
+    }, 500);
+
+
+
   };
 
-  //---------------------------------- Scroll to the bottom of kmbot_chat_timeline -------------------------------
+  //--- Scroll to the bottom of kmbot_chat_timeline ---
   function scrollToBottomOfResults() {
     var terminalResultsDiv = document.getElementById('kmbot_chat_conversation');
     terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;
   }
 
-  //---------------------------------------- Spinner ---------------------------------------------------
+  //--- Spinner ---
   function showSpinner() {
     $('.spinner').show();
   }
