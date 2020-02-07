@@ -85,17 +85,11 @@ $(document).ready(function () {
       success: function (data, textStatus, xhr) {
         console.log(data);
 
-
-
-
-
-
+        setBotResponse(data);
       },
       error: function (xhr, textStatus, errorThrown) {
-        console.log('Error in Operation');
         setBotResponse('error');
       }
-
 
     });
   }
@@ -126,7 +120,6 @@ $(document).ready(function () {
 
   function setBotResponse(val) {
 
-
     setTimeout(function () {
       if ($.trim(val) == '' || val == 'error') {
         console.log("----error!!!----");
@@ -136,15 +129,27 @@ $(document).ready(function () {
 
         // Add error message to spinner div
         $(BotResponse).appendTo('.kmbot-chat-spinner');
-
       } else {
+        // Format message from bot
+        var msg = "";
+        for (var i = 0; i < val.length; i++) {
+          if (val[i]["image"]) { //check if there are any images
+            msg += '<p class="botResult"><img  width="100%" src="'
+                + val[i].image +
+                '"></p><div class="clearfix"></div>';
+          } else {
+            msg += '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
+          }
+
+        }
+
+        BotResponse = msg;
+        $(BotResponse).appendTo('#kmbot_chat_conversation');
 
       }
       // Remove spinner and class
       $(".kmbot-chat-spinner div.spinner").remove()
       document.querySelector(".kmbot-chat-spinner").classList.remove("kmbot-chat-spinner");
-
-
 
     }, 500);
 
