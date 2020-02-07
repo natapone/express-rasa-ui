@@ -52,6 +52,8 @@ $(document).ready(function () {
   function setUserResponse(val) {
     console.log("Input=" + val);
 
+    $('.suggestion').remove();
+    
     var UserResponse =
     `<div class="kmbot-chat-message kmbot-chat-message-self">
       <div class="kmbot-chat-message-body" dir="ltr">${val}</div>
@@ -64,8 +66,6 @@ $(document).ready(function () {
     scrollToBottomOfResults();
 
 
-
-    // $('.suggestion').remove();
   }
 
   //--- Call the RASA API---
@@ -118,7 +118,6 @@ $(document).ready(function () {
     var BotResponse = getBotSpinnerTemplate();
 
     $(BotResponse).appendTo('#kmbot_chat_conversation');
-    // scrollToBottomOfResults();
 
   }
 
@@ -238,5 +237,16 @@ $(document).ready(function () {
       scrollToBottomOfResults();
     }, 1000);
   }
+
+  // on click of suggestions get value and send to API.AI
+  $(document).on("click", ".suggestion span", function () {
+    var text = this.innerText;
+    var intent = this.attributes["intent"].value;
+    console.log("--On Click--");
+    console.log(intent)
+    setUserResponse(text);
+    send(intent);
+    $('.suggestion').remove();
+  });
 
 });
