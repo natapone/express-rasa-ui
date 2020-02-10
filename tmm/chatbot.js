@@ -118,6 +118,8 @@ $(document).ready(function () {
 
     var BotResponse = getBotSpinnerTemplate();
 
+    // Remove previous timestamp
+    $("div.kmbot-chat-timestamp").remove();
     $(BotResponse).appendTo('#kmbot_chat_conversation');
 
   }
