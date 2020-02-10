@@ -103,7 +103,8 @@ $(document).ready(function () {
         }
 
         setBotResponse(data);
-        scrollToBottomOfResults();
+        setTimeResponse();
+
       },
       error: function (xhr, textStatus, errorThrown) {
         setBotResponse('error');
@@ -213,6 +214,23 @@ $(document).ready(function () {
 
   };
 
+  function setTimeResponse() {
+    setTimeout(function () {
+      var d = new Date();
+
+      var TimeResponse = `
+        <div data-timestamp="${Date.now()}" class="kmbot-chat-timestamp">
+          <p>${d.toLocaleTimeString()}</p>
+          <span></span>
+        </div>`;
+      $(TimeResponse).appendTo('#kmbot_chat_conversation');
+
+      scrollToBottomOfResults();
+    }, 1000);
+
+
+  }
+
   //--- Scroll to the bottom of kmbot_chat_timeline ---
   function scrollToBottomOfResults() {
     var terminalResultsDiv = document.getElementById('kmbot_chat_conversation');
@@ -248,7 +266,8 @@ $(document).ready(function () {
       }
 
       scrollToBottomOfResults();
-    }, 1000);
+    }, 700);
+
   }
 
   // on click of suggestions get value and send to API.AI
