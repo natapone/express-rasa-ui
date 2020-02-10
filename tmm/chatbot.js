@@ -53,7 +53,7 @@ $(document).ready(function () {
     console.log("Input=" + val);
 
     $('.suggestion').remove();
-    
+
     var UserResponse =
     `<div class="kmbot-chat-message kmbot-chat-message-self">
       <div class="kmbot-chat-message-body" dir="ltr">${val}</div>
@@ -64,7 +64,6 @@ $(document).ready(function () {
 
     prepBotResponse();
     scrollToBottomOfResults();
-
 
   }
 
@@ -104,6 +103,7 @@ $(document).ready(function () {
         }
 
         setBotResponse(data);
+        scrollToBottomOfResults();
       },
       error: function (xhr, textStatus, errorThrown) {
         setBotResponse('error');
@@ -187,7 +187,7 @@ $(document).ready(function () {
         var msg = "";
         for (var i = 0; i < val.length; i++) {
           if (val[i]["image"]) { //check if there are any images
-            message_body = '<p class="botResult"><img  width="100%" src="'
+            message_body = '<p class="botResult"><img class="reply-image" width="100%" src="'
               + val[i].image +
               '"></p><div class="clearfix"></div>';
             msg += getBotResponseTemplate(message_body);
@@ -204,6 +204,7 @@ $(document).ready(function () {
       }
       // Remove spinner and whole div
       removeSpinner();
+
       scrollToBottomOfResults();
 
     }, 500);
@@ -216,6 +217,7 @@ $(document).ready(function () {
   function scrollToBottomOfResults() {
     var terminalResultsDiv = document.getElementById('kmbot_chat_conversation');
     terminalResultsDiv.scrollTop = terminalResultsDiv.scrollHeight;
+
   }
 
   //--- Spinner ---
@@ -232,8 +234,19 @@ $(document).ready(function () {
       $('<p class="suggestion"></p>').appendTo('#kmbot_chat_conversation');
       // Loop through suggestions
       for (i = 0; i < suggLength; i++) {
-        $('<span class="sugg-options" intent="' + suggestions[i].payload + '" >' + suggestions[i].title + '</span>').appendTo('.suggestion');
+        // Format image
+        var suggValue = "";
+        if (suggestions[i].image) {
+          suggValue = `
+          <div><img class="reply-image" src="${suggestions[i].image}">${suggestions[i].title}</div>`;
+        } else {
+          suggValue = suggestions[i].title;
+        }
+
+        $('<span class="sugg-options" intent="' + suggestions[i].payload + '" >'
+        + suggValue + '</span>').appendTo('.suggestion');
       }
+
       scrollToBottomOfResults();
     }, 1000);
   }
