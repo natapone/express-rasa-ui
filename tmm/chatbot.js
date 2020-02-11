@@ -7,6 +7,9 @@ $(document).ready(function () {
     $('.kmbot_chat_button').toggle();
     $('.kmbot-chat-wrapper').toggle();
 
+    startBot();
+
+    document.getElementById('kmbot_chat_textarea').focus();
   });
 
   // -- Minimize bot from chat frame
@@ -23,12 +26,27 @@ $(document).ready(function () {
     $('.kmbot-chat-wrapper').remove();
     $('.kmbot_chat_button').remove();
 
+  });
+
+  // -- Switch bot to Live Chat
+  function switchToLiveChat() {
+    console.log("Switch to Live Chat!");
+
+    $('.kmbot-chat-wrapper').remove();
+    $('.kmbot_chat_button').remove();
+
     var cm = document.createElement('scr' + 'ipt'); cm.type = 'text/javascript'; cm.async = true;
     cm.src = ('https:' == document.location.protocol ? 'https://' : 'https://') + 'telenor.dimelochat.com/chat/9da84e3e5b88b0a55d6e9518/loader.js';
     var s = document.getElementsByTagName('scr' + 'ipt')[0]; s.parentNode.insertBefore(cm, s);
 
 
-  });
+  };
+  // --- Start bot ---
+  function startBot() {
+    prepBotResponse();
+    send('/i_greet');
+    scrollToBottomOfResults();
+  }
 
   // --- Input Text ---
 
@@ -209,7 +227,7 @@ $(document).ready(function () {
       removeSpinner();
 
       scrollToBottomOfResults();
-
+      document.getElementById('kmbot_chat_textarea').focus();
     }, 500);
 
 
@@ -278,9 +296,17 @@ $(document).ready(function () {
     var intent = this.attributes["intent"].value;
     console.log("--On Click--");
     console.log(intent)
-    setUserResponse(text);
-    send(intent);
+
     $('.suggestion').remove();
+
+    // Check if request to Live Chat intent = /i_request_live_chat
+    if(intent == '/i_request_live_chat') {
+      switchToLiveChat();
+    } else {
+      setUserResponse(text);
+      send(intent);
+    }
+
   });
 
 });
