@@ -219,9 +219,15 @@ $(document).ready(function () {
             console.log("+++custom+++" + cusLength);
 
             for (var ii = 0; ii < cusLength; ii++) {
+              console.log("---- Type = " + customs[ii].type);
               // Format Type
               if (customs[ii].type == "tel") {
                 message_body = '<a href="tel:' + escape(customs[ii].text) + '">'
+                  + customs[ii].text + '</a>';
+                message_body = '<p class="botResult">' +
+                  message_body + '</p><div class="clearfix"></div>';
+              } else if (customs[ii].type == "url") {
+                message_body = '<a href="' + escape(customs[ii].text) + '">'
                   + customs[ii].text + '</a>';
                 message_body = '<p class="botResult">' +
                   message_body + '</p><div class="clearfix"></div>';
