@@ -212,6 +212,25 @@ $(document).ready(function () {
               + val[i].image +
               '"></p><div class="clearfix"></div>';
             msg += getBotResponseTemplate(message_body);
+
+          } else if (val[i]["custom"]) { // Format custom response
+            var customs = val[i]["custom"];
+            var cusLength = customs.length;
+            console.log("+++custom+++" + cusLength);
+
+            for (var ii = 0; ii < cusLength; ii++) {
+              // Format Type
+              if (customs[ii].type == "tel") {
+                message_body = '<a href="tel:' + escape(customs[ii].text) + '">'
+                  + customs[ii].text + '</a>';
+                message_body = '<p class="botResult">' +
+                  message_body + '</p><div class="clearfix"></div>';
+              } else {
+                message_body = '<p class="botResult">' + customs[ii].text + '</p><div class="clearfix"></div>';
+              }
+
+              msg += getBotResponseTemplate(message_body);
+            }
           } else {
             message_body = '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
             msg += getBotResponseTemplate(message_body);
