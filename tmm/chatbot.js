@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  // Cookie
+  var cookieName = "km_bot_uuid";
+  var cookieDuration = 365 * 24 * 60 * 60 * 1000; // 365 days
+
   // --- Toggle chatbot ---
 
   // -- Open bot from icon
@@ -85,9 +89,54 @@ $(document).ready(function () {
 
   }
 
+  function createUUID() {
+    var dt = new Date().getTime();
+    var r = Math.random()*10000000000;
+    r = Math.floor(r);
+    var uuid = dt + "-" + r;
+
+    return uuid;
+  }
+
+  function setCookie(cname, cvalue, expire_duration) {
+  var d = new Date();
+  console.log("Now=" + d.toUTCString());
+  d.setTime(d.getTime() + expire_duration);
+  var expires = "expires=" + d.toUTCString();
+
+  console.log("Cookie expires = " + expires);
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  var uuid = getCookie(cookieName);
+
+  if (uuid == "") {
+    uuid = createUUID();
+    setCookie(cookieName, uuid, cookieDuration);
+  }
+  return uuid;
+}
+
   //--- Call the RASA API---
   function send(text) {
-    console.log("Call Rasa=" + text);
+    uuid = checkCookie();
+    console.log(uuid + ": Call Rasa=" + text);
 
     $.ajax({
       url: 'http://localhost:5002/webhooks/rest/webhook', //  RASA API // 206.189.37.110
@@ -96,7 +145,7 @@ $(document).ready(function () {
         'Content-Type': 'application/json'
       },
       data: JSON.stringify({
-        "sender": "user",
+        "sender": uuid,
         "message": text
       }),
       success: function (data, textStatus, xhr) {
