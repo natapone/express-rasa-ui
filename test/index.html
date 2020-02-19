@@ -1,0 +1,73 @@
+
+
+<html>
+  <head>
+          <title>Khin Min Chatbot</title>
+            <meta charset="UTF-8">
+      <meta name=viewport content="width=device-width, initial-scale=1">
+
+      <!-- CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  </head>
+  <body>
+
+    <!-- chatbot code -->
+    <kmbot>
+      <div id="kmbot_chat_button" class="kmbot_chat_button block-btn">
+        <div class="kmbot_chat_item_container">
+          <div class="button-wrapper">
+            <div class="telenor-button"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kmbot-chat-wrapper" id="kmbot_chat_wrapper" style="display: none;">
+        <div class="kmbot-chat-container kmbot-chat-container-opened" lang="en" id="kmbot_chat_container" style="right: 20px;">
+          <div id="kmbot_chat_window" class="kmbot-chat-window">
+            <div id="kmbot_chat_header" class="kmbot-chat-header">
+              <div id="kmbot_chat_controls" class="kmbot-chat-controls">
+                <span class="kmbot-chat-control kmbot-chat-control-open" title="Open" id="kmbot_chat_control_open"></span>
+                <span class="kmbot-chat-control kmbot-chat-control-close" title="Minimize" id="kmbot_chat_control_close"></span>
+                <span class="kmbot-chat-control kmbot-chat-control-quit" title="Quit" id="kmbot_chat_control_quit"></span>
+              </div>
+              <div id="kmbot_chat_title" class="kmbot-chat-title">Let Khin Min help you
+                <span id="kmbot_chat_title_notification" class="kmbot-chat-title-notification">
+                </span>
+              </div>
+            </div>
+            <div id="kmbot_chat_body" class="kmbot-chat-body">
+              <div class="kmbot-chat-frame kmbot-chat-conversation-frame" id="kmbot_chat_conversation_frame">
+                <div id="kmbot_chat_conversation" class="kmbot-chat-conversation" style="max-height: 322px; margin-top: 0px;">
+                  <div id="kmbot_chat_timeline" class="kmbot-chat-timeline">
+                    
+                  </div>
+                </div>
+                <div id="kmbot_chat_input_zone" class="kmbot-chat-input-zone typing">
+                  <textarea maxlength="512" placeholder="Send a message…" id="kmbot_chat_textarea" class="kmbot-chat-textarea" style="height: 39px; direction: ltr; text-align: left;" dir="ltr"></textarea>
+                  <span class="kmbot-chat-control kmbot-chat-control-send" title="Send" id="kmbot_chat_control_send"></span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </kmbot>
+
+
+    <!--container end-->
+
+
+    <!--JS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+    <script src="chatbot.js"></script>
+  </body>
+</html>
