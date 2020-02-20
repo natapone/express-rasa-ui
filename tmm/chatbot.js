@@ -48,7 +48,20 @@ $(document).ready(function () {
   // --- Start bot ---
   function startBot() {
     prepBotResponse();
-    send('/i_greet');
+
+    eventCategory = 'auto-init';
+    eventAction = '/i_greet';
+
+    // Send event to GA
+    cbga('send', {
+      hitType: 'event',
+      eventCategory: eventCategory,
+      eventAction: eventAction,
+      eventLabel: ''
+    });
+
+    // Start bot with greeting intent
+    send(eventAction);
     scrollToBottomOfResults();
   }
 
@@ -57,6 +70,19 @@ $(document).ready(function () {
   $('#kmbot_chat_control_send').click(function (e) {
     console.log("Text send!");
     var text = $("#kmbot_chat_textarea").val();
+
+    eventCategory = 'human-input'
+    eventAction = 'text from input';
+    eventLabel = text;
+
+    // Send event to GA
+    cbga('send', {
+      hitType: 'event',
+      eventCategory: eventCategory,
+      eventAction: eventAction,
+      eventLabel: eventLabel
+    });
+
     if (text == "" || $.trim(text) == '') {
       e.preventDefault();
       return false;
@@ -134,7 +160,7 @@ function checkCookie() {
 }
 
   //--- Call the RASA API---
-  function send(text) {
+  function send(text, remark) {
     uuid = checkCookie();
     console.log(uuid + ": Call Rasa=" + text);
 
@@ -372,6 +398,19 @@ function checkCookie() {
     console.log(intent)
 
     $('.suggestion').remove();
+
+    eventCategory = 'human-click'
+    eventAction = intent;
+    eventLabel = text;
+
+    // Send event to GA
+    cbga('send', {
+      hitType: 'event',
+      eventCategory: eventCategory,
+      eventAction: eventAction,
+      eventLabel: eventLabel
+    });
+
 
     // Check if request to Live Chat intent = /i_request_live_chat
     if(intent == '/i_request_live_chat') {
