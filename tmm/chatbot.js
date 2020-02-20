@@ -3,6 +3,8 @@ $(document).ready(function () {
   var cookieName = "km_bot_uuid";
   var cookieDuration = 365 * 24 * 60 * 60 * 1000; // 365 days
 
+  var lastInputText = "";
+
   // --- Toggle chatbot ---
 
   // -- Open bot from icon
@@ -70,6 +72,7 @@ $(document).ready(function () {
   $('#kmbot_chat_control_send').click(function (e) {
     console.log("Text send!");
     var text = $("#kmbot_chat_textarea").val();
+    lastInputText = text;
 
     eventCategory = 'human-input'
     eventAction = 'text from input';
@@ -160,7 +163,7 @@ function checkCookie() {
 }
 
   //--- Call the RASA API---
-  function send(text, remark) {
+  function send(text) {
     uuid = checkCookie();
     console.log(uuid + ": Call Rasa=" + text);
 
@@ -306,11 +309,30 @@ function checkCookie() {
                   + customs[ii].text + '</a>';
                 message_body = '<p class="botResult">' +
                   message_body + '</p><div class="clearfix"></div>';
+              } else if (customs[ii].type == 'ga_event') {
+                message_body = "";
+                console.log("ga_event: " + customs[ii].text + " -- " + lastInputText);
+
+                eventCategory = 'bot-response'
+                eventAction = customs[ii].text;
+                eventLabel = lastInputText;
+
+                // Send event to GA
+                cbga('send', {
+                  hitType: 'event',
+                  eventCategory: eventCategory,
+                  eventAction: eventAction,
+                  eventLabel: eventLabel
+                });
+
               } else {
                 message_body = '<p class="botResult">' + customs[ii].text + '</p><div class="clearfix"></div>';
               }
 
-              msg += getBotResponseTemplate(message_body);
+              if (message_body) {
+                msg += getBotResponseTemplate(message_body);
+              }
+
             }
           } else {
             message_body = '<p class="botResult">' + val[i].text + '</p><div class="clearfix"></div>';
