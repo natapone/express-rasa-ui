@@ -52,7 +52,7 @@ $(document).ready(function () {
     prepBotResponse();
 
     eventCategory = 'auto-init';
-    eventAction = '/i_greet';
+    eventAction = '/i_greet_en';
 
     // Send event to GA
     cbga('send', {
@@ -305,7 +305,7 @@ function checkCookie() {
                 message_body = '<p class="botResult">' +
                   message_body + '</p><div class="clearfix"></div>';
               } else if (customs[ii].type == "url") {
-                message_body = '<a href="' + escape(customs[ii].text) + '">'
+                message_body = '<a target="_blank" href="' + customs[ii].text + '">'
                   + customs[ii].text + '</a>';
                 message_body = '<p class="botResult">' +
                   message_body + '</p><div class="clearfix"></div>';
